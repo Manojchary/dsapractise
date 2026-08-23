@@ -8,51 +8,64 @@ class Solution {
     // totalsum-s2-s2 = d;
     
     
-    //using memorization usingg dp
-    int solve(int idx , vector<int>& arr , int target , vector<vector<int>> &dp ){
-        
-        if(idx==0){
-            
-            if(target==0 && arr[0]==0) return 2;
-            
-            else if (target==0 || arr[0]==target) return 1;
-            
-            return 0;
-            
-        }
-        
-        if(dp[idx][target]!=-1) return dp[idx][target];
-        
-        
-        int nottake = solve( idx-1 , arr, target , dp);
-        
-        int take = 0 ;
-        
-        if ( arr[idx]<= target) take = solve( idx -1 , arr , target-arr[idx] , dp );
-        
-        return dp[idx][target] = take+nottake;
-    }
+    //using tabulation 
     
     
     
     
     
     int countPartitions(vector<int>& arr, int diff) {
-        // Code here
         int n = arr.size();
-        int totalsum = 0;
-        
-        for(int i = 0 ;i<n ; i++){
-            totalsum+=arr[i];
+        int totalSum = 0;
+
+        for (int x : arr) {
+            totalSum += x;
         }
-        
-        int target = (totalsum-diff)/2;
-        
-        if((totalsum-diff)<0 || (totalsum-diff)%2 ) return 0;
-        
-        vector<vector<int>>dp(n , vector<int>(target+1 , -1));// target + 1 Bro don't forget 
-        
-        return solve(n-1 , arr , target , dp );
-        
+
+        // We need:
+        // S1 - S2 = diff
+        // S1 + S2 = totalSum
+        //
+        // Therefore:
+        // S2 = (totalSum - diff) / 2
+
+        if (totalSum - diff < 0 || (totalSum - diff) % 2 != 0) {
+            return 0;
+        }
+
+        int target = (totalSum - diff) / 2;
+
+        vector<int> prev(target + 1, 0);
+        vector<int> curr(target + 1, 0);
+
+        // Base case
+        if (arr[0] == 0) {
+            prev[0] = 2;  // take 0 OR don't take 0
+        } else {
+            prev[0] = 1;
+
+            if (arr[0] <= target) {
+                prev[arr[0]] = 1;
+            }
+        }
+
+        for (int idx = 1; idx < n; idx++) {
+            fill(curr.begin(), curr.end(), 0);
+
+            for (int sum = 0; sum <= target; sum++) {
+                int notTake = prev[sum];
+
+                int take = 0;
+                if (arr[idx] <= sum) {
+                    take = prev[sum - arr[idx]];
+                }
+
+                curr[sum] = take + notTake;
+            }
+
+            prev = curr;
+        }
+
+        return prev[target];
     }
 };
