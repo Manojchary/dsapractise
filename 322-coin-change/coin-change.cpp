@@ -29,28 +29,30 @@ public:
 
         int n = coins.size();
 
-        vector<vector<int>>dp(n , vector<int>(amount+1 , 1e9));
+        //vector<vector<int>>dp(n , vector<int>(amount+1 , 1e9));
+        vector<int>prev(amount+1 , 1e9) , curr(amount+1 , 1e9);
 
         for(int t = 0 ; t<=amount ; t++){
-            if(t%coins[0]==0) dp[0][t] = t/coins[0]; 
+            if(t%coins[0]==0) prev[t] = t/coins[0]; 
         }
 
         for(int i = 1 ; i<n ; i++){
             for(int t = 0 ; t<=amount ; t++){
-                int nottake = dp[i -1][t];
+                int nottake = prev[t];
 
                 int take = 1e9;
 
                 if(coins[i]<=t){
 
-                    take = 1+dp[i][t-coins[i]];
+                    take = 1+curr[t-coins[i]];
 
                 }    
-                dp[i][t] = min(take , nottake);
+                curr[t] = min(take , nottake);
 
             }
+            prev = curr ;
         }
-        int res = dp[n-1][amount];
+        int res = prev[amount];
         return res >=1e9 ? -1 : res ;
     }
 };
