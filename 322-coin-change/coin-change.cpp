@@ -1,6 +1,6 @@
 class Solution {
 public:
-    // the approach is simple using memrization with the basic recursion  
+    // the approach of prevsious memorization to tabulation
     int solve(int idx , int target , vector<int>& arr , vector<vector<int>>&dp){
         
         if(idx==0){
@@ -28,9 +28,29 @@ public:
 
 
         int n = coins.size();
-        vector<vector<int>>dp(n , vector<int>(amount+1 , -1));
 
-        int res = solve(n-1 , amount , coins , dp);
+        vector<vector<int>>dp(n , vector<int>(amount+1 , 1e9));
+
+        for(int t = 0 ; t<=amount ; t++){
+            if(t%coins[0]==0) dp[0][t] = t/coins[0]; 
+        }
+
+        for(int i = 1 ; i<n ; i++){
+            for(int t = 0 ; t<=amount ; t++){
+                int nottake = dp[i -1][t];
+
+                int take = 1e9;
+
+                if(coins[i]<=t){
+
+                    take = 1+dp[i][t-coins[i]];
+
+                }    
+                dp[i][t] = min(take , nottake);
+
+            }
+        }
+        int res = dp[n-1][amount];
         return res >=1e9 ? -1 : res ;
     }
 };
