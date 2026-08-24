@@ -22,9 +22,38 @@ public:
 
         int n = coins.size();
 
-        vector<vector<int>>dp(n , vector<int>(amount+1 , -1));
+        vector<vector<unsigned long long>> dp(n, vector<unsigned long long>(amount + 1, 0));
 
-        return solve(n-1 , amount , coins , dp);
+        // Base case:
+        // Using only coins[0], there is exactly one way
+        // if amount is divisible by coins[0].
+        for (long long t = 0; t <= amount; t++) {
+            if (t % coins[0] == 0)
+                dp[0][t] = 1;
+        }
+
+        // Fill the DP table
+        for (long long i = 1; i < n; i++) {
+
+            for (long long t = 0; t <= amount; t++) {
+
+                // Don't take current coin
+                unsigned long long nottake = dp[i - 1][t];
+
+                // Take current coin
+                // Stay at i because the coin can be reused
+                unsigned long long take = 0;
+
+                if (coins[i] <= t) {
+                    take = dp[i][t - coins[i]];
+                }
+
+                dp[i][t] = take + nottake;
+            }
+        }
+
+        return dp[n - 1][amount];
+    
         
     }
 };
