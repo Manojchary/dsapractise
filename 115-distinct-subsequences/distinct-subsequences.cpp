@@ -1,6 +1,6 @@
 class Solution {
 public:
-    //solving using plane recursion ; TC(2**n * 2**m ) , SC(N+M) ASC 
+    //solving using plane recursion with memoization 
     int solve(int i1 , int i2 , string s1 , string s2 , vector<vector<int>>&dp ){
         if(i2<0) return 1; //means we found the complete target string to be there in test string s1;
         if(i1<0) return 0; // means we didn't found the complete target string 
