@@ -17,22 +17,20 @@ public:
     int numDistinct(string s1, string s2) {
         int n = s1.size();
         int m = s2.size();
-        vector<vector<unsigned long long>>dp(n+1 , vector<unsigned long long>(m+1 , 0));
+        vector<unsigned long long>dp(m+1 , 0);
 
-        for(int i = 0 ; i<=n ; i++){
-            dp[i][0] = 1;// when j==0 means we found the complete target str;
-        }
+        dp[0] = 1;
 
         for(int i1 = 1 ; i1<=n ; i1++){
-            for(int i2 = 1 ; i2<=m ; i2++){
+            for(int i2 = m ; i2>=1 ; i2--){
                 if(s1[i1-1]==s2[i2-1]){// as we are choosing one based index we check i-1 , j-1
-                    dp[i1][i2] = dp[i1-1][i2-1] + dp[i1-1][i2];// here we are eplxing take and nottake at same time by adding their results;
+                    dp[i2] = dp[i2] + dp[i2-1];// here we are eplxing take and nottake at same time by adding their results;
                 }else{
-                    dp[i1][i2] = dp[i1-1][i2];// if not match we are moving the further index
+                    dp[i2] = dp[i2];// if not match we are moving the further index
                 }        
             }
         }
 
-        return dp[n][m];
+        return dp[m];
     }
 };
