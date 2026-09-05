@@ -36,44 +36,43 @@ public:
         int m = s2.size();
         // solving using 1 based indexing means as in exhausion "-1" we return len of remaining so here we 0 as exaution limit;
 
-        vector<vector<int>>dp(n+1 , vector<int>(m+1 , 0));
+        //vector<vector<int>>dp(n+1 , vector<int>(m+1 , 0));
+        vector<int>dp(m+1 , 0);
 
         // base case for exaction;
 
-        for(int i1 = 0 ; i1<=n ; i1++){
-            dp[i1][0] = i1;
-        }
         for(int i2 = 0 ; i2<=m ; i2++){
-            dp[0][i2] = i2;
+            dp[i2] = i2;
         }
-
+    
         for(int i1 = 1 ; i1<=n ; i1++){
+            vector<int>curr(m+1 , 0);
+            curr[0] = i1;  // Base case: s2 = ""
             for(int i2 = 1 ; i2<=m ; i2++){
+                
 
                 if(s1[i1-1]==s2[i2-1]){  // as it is one based index so we need to check for prev one ;
 
-                    dp[i1][i2] = 0+solve(i1-1 , i2-1 , s1 , s2 , dp);
+                    curr[i2] = 0+dp[i2-1];
 
                 }else{
 
                     // not matching case
-                    int insert = 1+dp[i1][i2-1];
+                    int insert = 1+curr[i2-1];
 
-                    int deletion = 1+dp[i1-1][i2]; 
+                    int deletion = 1+dp[i2]; 
 
-                    int replace = 1+dp[i1-1][i2-1];
+                    int replace = 1+dp[i2-1];
 
-                    dp[i1][i2] = min(insert , min(deletion , replace));
+                    curr[i2] = min(insert , min(deletion , replace));
 
                 }
-
-                
-
-
             }
+            dp = curr;
         }
 
 
-        return dp[n][m];
+        return dp[m];
+
     }
 };
