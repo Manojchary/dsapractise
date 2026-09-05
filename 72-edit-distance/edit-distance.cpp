@@ -1,6 +1,7 @@
 class Solution {
 public:
-    // with only plane recursion with memoization
+    // tabulation using memoization technique 
+
     
     int solve(int i1 , int i2 , string s1 , string s2 , vector<vector<int>>&dp){// min no of operations need to done;
         
@@ -29,12 +30,50 @@ public:
 
         return dp[i1][i2] = min(insert , min(deletion , replace));
     }
-    int minDistance(string word1, string word2) {
+    int minDistance(string s1, string s2) {
+        
+        int n = s1.size();
+        int m = s2.size();
+        // solving using 1 based indexing means as in exhausion "-1" we return len of remaining so here we 0 as exaution limit;
 
-        int n = word1.size();
-        int m = word2.size();
-        vector<vector<int>>dp(n , vector<int>(m , -1));
+        vector<vector<int>>dp(n+1 , vector<int>(m+1 , 0));
 
-        return solve(n-1 , m-1 , word1 , word2 , dp);
+        // base case for exaction;
+
+        for(int i1 = 0 ; i1<=n ; i1++){
+            dp[i1][0] = i1;
+        }
+        for(int i2 = 0 ; i2<=m ; i2++){
+            dp[0][i2] = i2;
+        }
+
+        for(int i1 = 1 ; i1<=n ; i1++){
+            for(int i2 = 1 ; i2<=m ; i2++){
+
+                if(s1[i1-1]==s2[i2-1]){  // as it is one based index so we need to check for prev one ;
+
+                    dp[i1][i2] = 0+solve(i1-1 , i2-1 , s1 , s2 , dp);
+
+                }else{
+
+                    // not matching case
+                    int insert = 1+dp[i1][i2-1];
+
+                    int deletion = 1+dp[i1-1][i2]; 
+
+                    int replace = 1+dp[i1-1][i2-1];
+
+                    dp[i1][i2] = min(insert , min(deletion , replace));
+
+                }
+
+                
+
+
+            }
+        }
+
+
+        return dp[n][m];
     }
 };
