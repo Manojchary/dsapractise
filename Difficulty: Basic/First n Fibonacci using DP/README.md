@@ -1,0 +1,7 @@
+<h2><a href="https://www.geeksforgeeks.org/problems/fibonacci-series-up-to-nth-term/1">First n Fibonacci using DP</a></h2><h3>Difficulty Level : Difficulty: Basic</h3><hr><div class="problems_problem_content__Xm_eO" style="--text-color: var(--problem-text-color);"><p><span style="font-size: 14pt;">You are given an integer <strong>n</strong>, return the fibonacci series till the nth(0-based indexing) term. Since the terms can become very large return the terms modulo 10<sup>9</sup>+7.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> n = 5<strong>
+Output:</strong> <strong>[</strong>0, 1, 1, 2, 3, 5]</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> n = 10<strong>
+Output:</strong> [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]</span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraint:</strong></span><br><span style="font-size: 14pt;">1 ≤ n ≤ 10<sup>5</sup></span></p></div><p><span style=font-size:18px><strong>Company Tags : </strong><br><code>Bloomberg</code>&nbsp;<br><p><span style=font-size:18px><strong>Topic Tags : </strong><br><code>Recursion</code>&nbsp;<code>Fibonacci</code>&nbsp;<code>Dynamic Programming</code>&nbsp;
