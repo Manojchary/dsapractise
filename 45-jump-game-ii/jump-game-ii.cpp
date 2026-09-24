@@ -12,7 +12,7 @@ public:
         long long minJumps = INT_MAX;
 
         // Try every position we can jump to
-        for (int j = i + 1; j <= min(n - 1, i + nums[i]); j++) {
+        for (int j = i + 1; j <= i + nums[i]; j++) {
 
             long long jumps = 1 + solve(j, n, nums, dp);
 
